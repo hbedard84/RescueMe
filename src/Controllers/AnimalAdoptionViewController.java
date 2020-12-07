@@ -99,10 +99,10 @@ public class AnimalAdoptionViewController implements Initializable {
 
     @FXML
     private void searchPets() {
-        //validateSearchFields();
+        validateSearchFields();
         String species = null;
         //if search fields are valid, use those inputs to search API for matching pets and list in listview
-        if (lbl_warning.equals("")) {
+        if (lbl_warning.getText().equals("")) {
 
             //get value of species
             if (radio_dog.isSelected()) {
@@ -133,24 +133,29 @@ public class AnimalAdoptionViewController implements Initializable {
             listView_results.getItems().clear();
 
             //connect to API to get results
-            try {
-                //PetJsonResponse response = APIUtility.callDataAPI(species);
-                HighLevelInfo highLevelResponse = APIUtility.callPetAPI(species);
-                //AnimalAdoptionInfo animalResponse = APIUtility.callAdoptionAPI(species);
 
-                List<AnimalAdoptionInfo> pets = Arrays.asList(highLevelResponse.getAttributes());
-                //List<HighLevelInfo> data = Arrays.asList(response.getData());
-                //List<String> details = Arrays.asList(animalResponse.getName());
 
-                listView_results.getItems().addAll(pets);
-                System.out.println(pets);
-                lbl_rowsReturned.setText("Pets Returned: "+highLevelResponse.getCount());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+
+
+//            try {
+//                //PetJsonResponse response = APIUtility.callDataAPI(species);
+//                HighLevelInfo highLevelResponse = APIUtility.callPetAPI(species);
+//                //AnimalAdoptionInfo animalResponse = APIUtility.callAdoptionAPI(species);
+//
+//                List<AnimalAdoptionInfo> pets = Arrays.asList(highLevelResponse.getAttributes());
+//                //List<HighLevelInfo> data = Arrays.asList(response.getData());
+//                //List<String> details = Arrays.asList(animalResponse.getName());
+//
+//                listView_results.getItems().addAll(pets);
+//                System.out.println(pets);
+//                lbl_rowsReturned.setText("Pets Returned: "+highLevelResponse.getCount());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
+        else lbl_warning.setText("Enter all fields correctly before searching!");
     }
 
     @FXML
