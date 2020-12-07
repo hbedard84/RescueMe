@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="700.0" stylesheets="@../CSS/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AnimalAdoptionViewController">
+   <children>
+      <VBox alignment="CENTER" layoutX="50.0" layoutY="39.0" prefHeight="600.0" prefWidth="800.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="58.0" prefWidth="660.0" spacing="20.0">
+               <children>
+                  <ImageView fx:id="img_cat" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/cat.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lbl_title" text="Animal Adoption Finder">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <ImageView fx:id="img_dog" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/dog.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <VBox fx:id="vBox_searchFields" spacing="20.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                     <children>
+                        <Label fx:id="lbl_species" text="Desired Pet Species: " />
+                        <RadioButton fx:id="radio_cat" mnemonicParsing="false" text="Cat" />
+                        <RadioButton fx:id="radio_dog" mnemonicParsing="false" text="Dog" />
+                     </children>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                     <children>
+                        <Label fx:id="lbl_postCode" text="Postal Code: " />
+                        <TextField fx:id="txt_postCode" prefHeight="38.0" prefWidth="115.0" promptText="eg. L4N6H1" />
+                        <Label fx:id="lbl_choiceBox" text="Search Within (km): " />
+                        <ChoiceBox fx:id="choiceBox_km" prefWidth="150.0" />
+                     </children>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="20.0">
+                     <children>
+                        <Label fx:id="lbl_gender" text="Gender: " />
+                        <CheckBox fx:id="chkbox_male" mnemonicParsing="false" text="Male" />
+                        <CheckBox fx:id="chkbox_female" mnemonicParsing="false" text="Female" />
+                        <Button fx:id="btn_search" mnemonicParsing="false" onAction="#searchPets" prefHeight="43.0" prefWidth="119.0" text="SEARCH">
+                           <HBox.margin>
+                              <Insets left="130.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" top="20.0" />
+               </padding>
+            </VBox>
+            <HBox alignment="CENTER" spacing="50.0">
+               <children>
+                  <Label fx:id="lbl_rowsReturned" text="Pets Found: 0" />
+                  <Label fx:id="lbl_warning" prefHeight="26.0" prefWidth="490.0" text="Warning label" />
+               </children>
+            </HBox>
+            <ListView fx:id="listView_results" prefHeight="260.0" prefWidth="760.0" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

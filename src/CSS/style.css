@@ -1,0 +1,31 @@
+.root{
+    -fx-background-image: url("/Images/background.jpg");
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+#vBox_searchFields {
+    -fx-background-color: rgba(255, 255, 255, 0.6);
+    -fx-background-radius: 15px;
+}
+
+.button{
+    -fx-background-color: #79c3da;
+    -fx-border-color: #1B4F72;
+    -fx-border-width: 3px;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+}
+
+.list-view{
+    -fx-background-radius: 15px;
+}
+
+.choice-box{
+    -fx-background-color: white;
+    -fx-border-color: silver;
+}
+
+#lbl_warning{
+    -fx-text-fill: red;
+}
