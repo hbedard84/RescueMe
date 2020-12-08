@@ -83,7 +83,7 @@
             </VBox>
             <HBox alignment="CENTER" spacing="50.0">
                <children>
-                  <Label fx:id="lbl_rowsReturned" text="Pets Found: 0" />
+                  <Label fx:id="lbl_rowsReturned" prefHeight="26.0" prefWidth="552.0" text="Displaying 12345/123214 available pets" />
                   <Label fx:id="lbl_warning" prefHeight="26.0" prefWidth="490.0" text="Warning label" />
                </children>
             </HBox>

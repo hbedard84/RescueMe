@@ -1,8 +1,6 @@
 package Controllers;
 
-import Models.AnimalAdoptionInfo;
-import Models.HighLevelInfo;
-import Models.PetJsonResponse;
+import Models.*;
 import Utilities.APIUtility;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -63,7 +61,7 @@ public class AnimalAdoptionViewController implements Initializable {
     private Button btn_search;
 
     @FXML
-    private ListView<AnimalAdoptionInfo> listView_results;
+    private ListView<Data> listView_results;
 
     @FXML
     private TextField txt_postCode;
@@ -134,6 +132,47 @@ public class AnimalAdoptionViewController implements Initializable {
 
             //connect to API to get results
 
+            try {
+                APIResponse apiResponse = APIUtility.callResponseAPI(species);
+                List<Data> pets = Arrays.asList(apiResponse.getData());
+                MetaData meta = apiResponse.getMeta();
+
+                listView_results.getItems().addAll(pets);
+                //int allPetCount = metaResponse.getCount();
+//                int petsReturned = metaResponse.getCountReturned();
+
+
+                System.out.println(meta);
+
+
+//                MetaData metaResponse = APIUtility.callMetaAPI(species);
+//                Data dataResponse = APIUtility.callDataAPI(species);
+//                Attributes attributesResponse = APIUtility.callAttributesAPI(species);
+//
+//                //get data from meta
+//
+//                int allPetCount = metaResponse.getCount();
+//                int petsReturned = metaResponse.getCountReturned();
+
+//                //get data from data
+//                 Attributes pets = dataResponse.getAttributes();
+//
+//                //get data from attributes
+//                String petAge = attributesResponse.getAgeGroup();
+
+
+
+
+
+ //               lbl_rowsReturned.setText(String.format("Displaying %d / %d pets available", petsReturned, allPetCount));
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+
 
 
 
@@ -155,7 +194,7 @@ public class AnimalAdoptionViewController implements Initializable {
 //                e.printStackTrace();
 //            }
         }
-        else lbl_warning.setText("Enter all fields correctly before searching!");
+
     }
 
     @FXML
@@ -165,35 +204,29 @@ public class AnimalAdoptionViewController implements Initializable {
 
         //VALIDATIONS
 
-        //Species - must select one
-        if (!radio_cat.isSelected() && !radio_dog.isSelected()){
-            lbl_warning.setText("Select either dog or cat.");
-            lbl_warning.setVisible(true);
-            lbl_species.setStyle("-fx-text-fill: red");
-        }
-        else lbl_species.setStyle("-fx-text-fill: green");
+            //Species - must select one
+            if (!radio_cat.isSelected() && !radio_dog.isSelected()) {
+                lbl_warning.setText("Select either dog or cat.");
+                lbl_warning.setVisible(true);
+                lbl_species.setStyle("-fx-text-fill: red");
+            } else lbl_species.setStyle("-fx-text-fill: green");
 
-        //Postal code - must not be blank and must match pattern: L4N6H1 (no spaces or dashes)
-        if (txt_postCode.equals("")){
-            lbl_warning.setText("You must complete all search fields.");
-            lbl_warning.setVisible(true);
-            lbl_postCode.setStyle("-fx-text-fill: red");
-        }
-        else if (!txt_postCode.getText().matches("^[A-Za-z]\\d[A-Za-z]\\d[A-Za-z]\\d$")){
-            lbl_warning.setText("Postal code must match pattern: L4N6H1");
-            lbl_warning.setVisible(true);
-            lbl_postCode.setStyle("-fx-text-fill: red");
-        }
-        else lbl_postCode.setStyle("-fx-text-fill: green");
+            //Postal code - must not be blank and must match pattern: L4N6H1 (no spaces or dashes)
+            if (txt_postCode.equals("")) {
+                lbl_warning.setText("You must complete all search fields.");
+                lbl_warning.setVisible(true);
+                lbl_postCode.setStyle("-fx-text-fill: red");
+            } else if (!txt_postCode.getText().matches("^[A-Za-z]\\d[A-Za-z]\\d[A-Za-z]\\d$")) {
+                lbl_warning.setText("Postal code must match pattern: L4N6H1");
+                lbl_warning.setVisible(true);
+                lbl_postCode.setStyle("-fx-text-fill: red");
+            } else lbl_postCode.setStyle("-fx-text-fill: green");
 
-        //Gender - at least one must be selected
-        if (!chkbox_female.isSelected() && !chkbox_male.isSelected()){
-            lbl_warning.setText("Select gender(s)");
-            lbl_warning.setVisible(true);
-            lbl_gender.setStyle("-fx-text-fill: red");
-        }
-        else lbl_gender.setStyle("-fx-text-fill: green");
+            //Gender - at least one must be selected
+            if (!chkbox_female.isSelected() && !chkbox_male.isSelected()) {
+                lbl_warning.setText("Select gender(s)");
+                lbl_warning.setVisible(true);
+                lbl_gender.setStyle("-fx-text-fill: red");
+            } else lbl_gender.setStyle("-fx-text-fill: green");
     }
-
-
 }

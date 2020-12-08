@@ -24,6 +24,6 @@ public class MetaData {
 
     //toString override
     public String toString(){
-        return String.format("Displaying %d / %d pets available", count, countReturned);
+        return String.format("Displaying %d / %d pets available", countReturned, count);
     }
 }
