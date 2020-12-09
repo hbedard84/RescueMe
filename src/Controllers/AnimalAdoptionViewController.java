@@ -148,27 +148,38 @@ public class AnimalAdoptionViewController implements Initializable {
         petImage.setVisible(false);
         petImage.managedProperty().bind(petImage.visibleProperty());
 
-        //Configure event listener for click on a row in the listview
-        listView_results.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldValue, petSelected) -> {
-                    petImage.setImage(new Image(petSelected.getAttributes().getPictureThumbnailUrl()));
-                    petImage.setVisible(true);
-                    btn_details.setVisible(true);
+        //Configure event listener for click on a row in the listview, if the listview is populated
 
-                    //store the details of selected pet to pass to detail scene
-                    hiddenName.setText(petSelected.getAttributes().getName());
-                    hiddenAge.setText(petSelected.getAttributes().getAgeGroup());
-                    hiddenGender.setText(petSelected.getAttributes().getSex());
-                    hiddenImage.setText(petSelected.getAttributes().getPictureThumbnailUrl());
-                    hiddenSize.setText(petSelected.getAttributes().getSizeGroup());
-                    hiddenBreed.setText(petSelected.getAttributes().getBreedString());
-                    hiddenURL.setText(petSelected.getAttributes().getUrl());
-                }
-        );
+            listView_results.getSelectionModel().selectedItemProperty().addListener(
+                    (obs, oldValue, petSelected) -> {
+                        if(petSelected!=null) {
+                            petImage.setImage(new Image(petSelected.getAttributes().getPictureThumbnailUrl()));
+                            petImage.setVisible(true);
+                            btn_details.setVisible(true);
+
+                            //store the details of selected pet to pass to detail scene
+                            hiddenName.setText(petSelected.getAttributes().getName());
+                            hiddenAge.setText(petSelected.getAttributes().getAgeGroup());
+                            hiddenGender.setText(petSelected.getAttributes().getSex());
+                            hiddenImage.setText(petSelected.getAttributes().getPictureThumbnailUrl());
+                            hiddenSize.setText(petSelected.getAttributes().getSizeGroup());
+                            hiddenBreed.setText(petSelected.getAttributes().getBreedString());
+                            hiddenURL.setText(petSelected.getAttributes().getUrl());
+                        }
+                    }
+            );
+
     }
 
+    /***
+     * This method is called when the Search Button is clicked.
+     * It uses the user input for species (cats or dogs) to make a call to the RescueOrg API
+     * and return the list of available pets matching that species.
+     * (Note:  Currently the API is not working for searching with parameters of postal code and gender, so those variables will only come into play once the API updates)
+     */
     @FXML
     private void searchPets() {
+        //validate the search fields are valid
         validateSearchFields();
         String species = null;
         //if search fields are valid, use those inputs to search API for matching pets and list in listview
@@ -223,6 +234,9 @@ public class AnimalAdoptionViewController implements Initializable {
         }
     }
 
+    /***
+     * This method validates the input entered by the user in the search form
+     */
     @FXML
     private void validateSearchFields() {
         lbl_warning.setVisible(false);
@@ -256,6 +270,11 @@ public class AnimalAdoptionViewController implements Initializable {
             } else lbl_gender.setStyle("-fx-text-fill: green");
     }
 
+    /***
+     * This method is called when the More Details button is
+     * @param event
+     * @throws IOException
+     */
     @FXML
     void displayDetails(ActionEvent event) throws IOException{
 

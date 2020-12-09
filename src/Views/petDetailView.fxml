@@ -47,7 +47,7 @@
                               <Image url="@../Images/takehome.png" />
                            </image>
                         </ImageView>
-                        <Button fx:id="btn_back" mnemonicParsing="false" onAction="#backToList" text="New Search" />
+                        <Button fx:id="btn_back" mnemonicParsing="false" onAction="#backToList" text="Back to Pet List" />
                      </children>
                   </VBox>
                   <GridPane fx:id="gridpane" alignment="CENTER" prefHeight="543.0" prefWidth="534.0">
