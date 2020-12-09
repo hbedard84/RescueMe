@@ -2,6 +2,7 @@ package Controllers;
 
 import Models.*;
 import Utilities.APIUtility;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -264,6 +265,7 @@ public class AnimalAdoptionViewController implements Initializable {
 
         //pass values from selected pet to the detail view  (this knowledge was gained from source:https://jagar.me/post/passingdatainjavafx/)
         PetDetailViewController petDetailViewController = loader.getController();
+
         petDetailViewController.setNameText(hiddenName.getText());
         petDetailViewController.setBreedText(hiddenBreed.getText());
         petDetailViewController.setAgeText(hiddenAge.getText());
@@ -271,6 +273,7 @@ public class AnimalAdoptionViewController implements Initializable {
         petDetailViewController.setSizeText(hiddenSize.getText());
         petDetailViewController.setURLText(hiddenURL.getText());
         petDetailViewController.setImage(hiddenImage.getText());
+        petDetailViewController.setListview(listView_results);
 
 
         Scene scene2 = new Scene(root);
@@ -289,5 +292,10 @@ public class AnimalAdoptionViewController implements Initializable {
         stage.setResizable(false);
         stage.setScene(scene2);
         stage.show();
+    }
+
+    public void setListview(ListView<Data> listview){
+        ObservableList<Data> list = listview.getItems();
+        listView_results.setItems(list);
     }
 }

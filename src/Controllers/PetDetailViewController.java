@@ -1,6 +1,9 @@
 package Controllers;
 
+import Models.Data;
 import Utilities.APIUtility;
+import javafx.beans.Observable;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,6 +22,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class PetDetailViewController implements Initializable {
@@ -61,9 +66,16 @@ public class PetDetailViewController implements Initializable {
     @FXML
     private GridPane gridpane;
 
+    @FXML
+    private ListView<Data> listview_hidden;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        //make listview hidden, it's just to hold the listview from the previous scene so we can pass it back later
+        listview_hidden.setVisible(false);
+        listview_hidden.managedProperty().bind(listview_hidden.visibleProperty());
 
     }
 
@@ -102,16 +114,27 @@ public class PetDetailViewController implements Initializable {
             petImage2.setImage(new Image(text));
         else petImage2.setImage(new Image("/Images/paw.png"));
     }
+    public void setListview(ListView<Data> listview){
+        ObservableList<Data> list = listview.getItems();
+        listview_hidden.setItems(list);
+    }
 
     @FXML
     public void backToList(ActionEvent event) throws IOException {
 
-       // btn_back.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/animalAdoptionView.fxml"));
+        Parent root = loader.load();
 
-        Parent root = FXMLLoader.load(getClass().getResource("/Views/animalAdoptionView.fxml"));
+        //pass values from selected pet to the detail view  (this knowledge was gained from source:https://jagar.me/post/passingdatainjavafx/)
+        AnimalAdoptionViewController animalAdoptionViewController = loader.getController();
+
+        animalAdoptionViewController.setListview(listview_hidden);
+
         Scene scene = new Scene(root);
+        //Stage stage = new Stage();
         Stage stage = (Stage) ((javafx.scene.Node)event.getSource()).getScene().getWindow();
-        stage.setTitle("Pet Details");
+
+        stage.setTitle("Rescue Me - Animal Adoption Finder");
         //add custom css styling to scene
         scene.getStylesheets().add("/CSS/style.css");
         // change default icon to paw print image
@@ -119,5 +142,24 @@ public class PetDetailViewController implements Initializable {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+
+
+
+
+
+
+       // btn_back.getScene().getWindow().hide();
+
+//        Parent root = FXMLLoader.load(getClass().getResource("/Views/animalAdoptionView.fxml"));
+//        Scene scene = new Scene(root);
+//        Stage stage = (Stage) ((javafx.scene.Node)event.getSource()).getScene().getWindow();
+//        stage.setTitle("Pet Details");
+//        //add custom css styling to scene
+//        scene.getStylesheets().add("/CSS/style.css");
+//        // change default icon to paw print image
+//        stage.getIcons().add(new Image("/Images/paw.png"));
+//        stage.setResizable(false);
+//        stage.setScene(scene);
+//        stage.show();
     }
 }
