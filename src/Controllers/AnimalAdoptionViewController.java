@@ -2,11 +2,18 @@ package Controllers;
 
 import Models.*;
 import Utilities.APIUtility;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -72,8 +79,43 @@ public class AnimalAdoptionViewController implements Initializable {
     @FXML
     private Label lbl_rowsReturned;
 
+    @FXML
+    private ImageView petImage;
+
+    @FXML
+    private Button btn_details;
+
+    @FXML
+    private HBox hiddenResults;
+
+    @FXML
+    private TextField hiddenName;
+
+    @FXML
+    private TextField hiddenURL;
+
+    @FXML
+    private TextField hiddenGender;
+
+    @FXML
+    private TextField hiddenBreed;
+
+    @FXML
+    private TextField hiddenAge;
+
+    @FXML
+    private TextField hiddenSize;
+
+    @FXML
+    private TextField hiddenImage;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        //Configure Results box as Hidden
+        hiddenResults.setVisible(false);
+        hiddenResults.managedProperty().bind(hiddenResults.visibleProperty());
 
         //Configure PostCode TextBox
         txt_postCode.setPromptText("eg. L0M1B1");
@@ -90,9 +132,38 @@ public class AnimalAdoptionViewController implements Initializable {
         //Configure Warning Label
         lbl_warning.setText("");
         lbl_warning.setVisible(false);
+        lbl_warning.managedProperty().bind(lbl_warning.visibleProperty());
 
         //Configure the rows returned label
         lbl_rowsReturned.setText("");
+        lbl_rowsReturned.setVisible(false);
+        lbl_rowsReturned.managedProperty().bind(lbl_rowsReturned.visibleProperty());
+
+        //Configure the details button
+        btn_details.setVisible(false);
+        btn_details.managedProperty().bind(btn_details.visibleProperty());
+
+        //Configure the Pet Image
+        petImage.setVisible(false);
+        petImage.managedProperty().bind(petImage.visibleProperty());
+
+        //Configure event listener for click on a row in the listview
+        listView_results.getSelectionModel().selectedItemProperty().addListener(
+                (obs, oldValue, petSelected) -> {
+                    petImage.setImage(new Image(petSelected.getAttributes().getPictureThumbnailUrl()));
+                    petImage.setVisible(true);
+                    btn_details.setVisible(true);
+
+                    //store the details of selected pet to pass to detail scene
+                    hiddenName.setText(petSelected.getAttributes().getName());
+                    hiddenAge.setText(petSelected.getAttributes().getAgeGroup());
+                    hiddenGender.setText(petSelected.getAttributes().getSex());
+                    hiddenImage.setText(petSelected.getAttributes().getPictureThumbnailUrl());
+                    hiddenSize.setText(petSelected.getAttributes().getSizeGroup());
+                    hiddenBreed.setText(petSelected.getAttributes().getBreedString());
+                    hiddenURL.setText(petSelected.getAttributes().getUrl());
+                }
+        );
     }
 
     @FXML
@@ -114,7 +185,7 @@ public class AnimalAdoptionViewController implements Initializable {
 
             //get value of distance
             String distance = choiceBox_km.getValue();
-            if (distance == "Any distance"){
+            if (distance.equals("Any distance")){
                 distance = "100000";
             }
 
@@ -129,72 +200,26 @@ public class AnimalAdoptionViewController implements Initializable {
 
             //clear the previous results
             listView_results.getItems().clear();
+            petImage.setImage(new Image("./Images/paw.png"));
 
             //connect to API to get results
 
             try {
-                APIResponse apiResponse = APIUtility.callResponseAPI(species);
+                APIResponse apiResponse = APIUtility.callResponseAPI(species, postalCode, gender);
                 List<Data> pets = Arrays.asList(apiResponse.getData());
                 MetaData meta = apiResponse.getMeta();
 
                 listView_results.getItems().addAll(pets);
-                //int allPetCount = metaResponse.getCount();
-//                int petsReturned = metaResponse.getCountReturned();
 
-
-                System.out.println(meta);
-
-
-//                MetaData metaResponse = APIUtility.callMetaAPI(species);
-//                Data dataResponse = APIUtility.callDataAPI(species);
-//                Attributes attributesResponse = APIUtility.callAttributesAPI(species);
-//
-//                //get data from meta
-//
-//                int allPetCount = metaResponse.getCount();
-//                int petsReturned = metaResponse.getCountReturned();
-
-//                //get data from data
-//                 Attributes pets = dataResponse.getAttributes();
-//
-//                //get data from attributes
-//                String petAge = attributesResponse.getAgeGroup();
-
-
-
-
-
- //               lbl_rowsReturned.setText(String.format("Displaying %d / %d pets available", petsReturned, allPetCount));
+                lbl_rowsReturned.setText(meta.toString()+" - Click on a row to view pet picture!");
+                lbl_rowsReturned.setStyle("-fx-background-color: rgba(255, 255, 255, 0.6);");
+                lbl_rowsReturned.setVisible(true);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-
-
-
-
-
-//            try {
-//                //PetJsonResponse response = APIUtility.callDataAPI(species);
-//                HighLevelInfo highLevelResponse = APIUtility.callPetAPI(species);
-//                //AnimalAdoptionInfo animalResponse = APIUtility.callAdoptionAPI(species);
-//
-//                List<AnimalAdoptionInfo> pets = Arrays.asList(highLevelResponse.getAttributes());
-//                //List<HighLevelInfo> data = Arrays.asList(response.getData());
-//                //List<String> details = Arrays.asList(animalResponse.getName());
-//
-//                listView_results.getItems().addAll(pets);
-//                System.out.println(pets);
-//                lbl_rowsReturned.setText("Pets Returned: "+highLevelResponse.getCount());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
         }
-
     }
 
     @FXML
@@ -228,5 +253,41 @@ public class AnimalAdoptionViewController implements Initializable {
                 lbl_warning.setVisible(true);
                 lbl_gender.setStyle("-fx-text-fill: red");
             } else lbl_gender.setStyle("-fx-text-fill: green");
+    }
+
+    @FXML
+    void displayDetails(ActionEvent event) throws IOException{
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/petDetailView.fxml"));
+        Parent root = loader.load();
+
+
+        //pass values from selected pet to the detail view  (this knowledge was gained from source:https://jagar.me/post/passingdatainjavafx/)
+        PetDetailViewController petDetailViewController = loader.getController();
+        petDetailViewController.setNameText(hiddenName.getText());
+        petDetailViewController.setBreedText(hiddenBreed.getText());
+        petDetailViewController.setAgeText(hiddenAge.getText());
+        petDetailViewController.setGenderText(hiddenGender.getText());
+        petDetailViewController.setSizeText(hiddenSize.getText());
+        petDetailViewController.setURLText(hiddenURL.getText());
+        petDetailViewController.setImage(hiddenImage.getText());
+
+
+        Scene scene2 = new Scene(root);
+        //Stage stage = new Stage();
+        Stage stage = (Stage) ((javafx.scene.Node)event.getSource()).getScene().getWindow();
+
+//        //hold the current scene open while switching to other scene so you can return with values preloaded
+//        stage.initOwner(btn_details.getScene().getWindow());
+//        stage.showAndWait();
+
+        stage.setTitle("Pet Details");
+        //add custom css styling to scene
+        scene2.getStylesheets().add("/CSS/style.css");
+        // change default icon to paw print image
+        stage.getIcons().add(new Image("/Images/paw.png"));
+        stage.setResizable(false);
+        stage.setScene(scene2);
+        stage.show();
     }
 }
