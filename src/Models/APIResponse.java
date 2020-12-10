@@ -11,7 +11,9 @@ public class APIResponse {
     }
 
     public void setMeta(MetaData meta) {
-        this.meta = meta;
+        if(meta != null)
+            this.meta = meta;
+        else throw new IllegalArgumentException("Meta cannot be null");
     }
 
     public Data[] getData() {
@@ -19,6 +21,8 @@ public class APIResponse {
     }
 
     public void setData(Data[] data) {
-        this.data = data;
+        if (data.length > 0)
+            this.data = data;
+        else throw new IllegalArgumentException("Data cannot be an empty array.");
     }
 }

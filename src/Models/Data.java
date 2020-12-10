@@ -11,7 +11,9 @@ public class Data {
     }
 
     public void setId(String id) {
-        this.id = id;
+        if (!id.isBlank())
+            this.id = id;
+        else throw new IllegalArgumentException("Id cannot be blank.");
     }
 
     public Attributes getAttributes() {
@@ -19,7 +21,9 @@ public class Data {
     }
 
     public void setAttributes(Attributes attributes) {
-        this.attributes = attributes;
+        if (attributes != null)
+            this.attributes = attributes;
+        else throw new IllegalArgumentException("Attributes cannot be null.");
     }
 
     //toString

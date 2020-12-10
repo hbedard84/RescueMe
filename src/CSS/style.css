@@ -1,12 +1,12 @@
 .root{
-    -fx-background-image: url("/Images/background.jpg");
+    -fx-background-image: url("/Images/background.jpg");  /*Sets background of the entire scene*/
     -fx-font-size: 16px;
     -fx-font-weight: bold;
 }
 
 #vBox_searchFields, #gridpane {
-    -fx-background-color: rgba(255, 255, 255, 0.6);
-    -fx-background-radius: 15px;
+    -fx-background-color: rgba(255, 255, 255, 0.6);   /* Gives slightly transparent white background, to increase visibility/contrast of contents against the background*/
+    -fx-background-radius: 15px;   /*rounds the corners*/
 }
 
 .button{
@@ -27,5 +27,5 @@
 }
 
 #lbl_warning{
-    -fx-text-fill: red;
+    -fx-text-fill: red;  /*Changes font colour to red*/
 }

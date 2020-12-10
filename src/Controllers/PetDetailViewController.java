@@ -1,8 +1,6 @@
 package Controllers;
 
 import Models.Data;
-import Utilities.APIUtility;
-import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,12 +15,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class PetDetailViewController implements Initializable {
@@ -73,61 +69,108 @@ public class PetDetailViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        //make listview hidden, it's just to hold the listview from the previous scene so we can pass it back later
+        //make listview hidden, it's just to temporarily hold the listview from the previous scene so we can pass it back later
         listview_hidden.setVisible(false);
         listview_hidden.managedProperty().bind(listview_hidden.visibleProperty());
 
     }
 
+    //THESE METHODS ARE USED FOR PASSING DATA BETWEEN SCENES
+
+    /***
+     * Sets the name label to the name value from the first scene, or unknown if that value is null
+     * @param text - value of petSelected.getAttributes().getName()
+     */
     public void setNameText(String text){
         if(text != null)
             lbl_name.setText(text);
         else lbl_name.setText("Unknown");
     }
+
+    /***
+     * Sets the breed label to the breed value from the first scene, or unknown if that value is null
+     * @param text - value of petSelected.getAttributes().getBreed()
+     */
     public void setBreedText(String text){
         if(text != null)
             lbl_breed.setText(text);
         else lbl_breed.setText("Unknown");
     }
+
+    /***
+     * Sets the age label to the age value from the first scene, or unknown if that value is null
+     * @param text - value of petSelected.getAttributes().getAge()
+     */
     public void setAgeText(String text){
         if(text != null)
             lbl_age.setText(text);
         else lbl_age.setText("Unknown");
     }
+
+    /***
+     * Sets the gender label to the gender value from the first scene, or unknown if that value is null
+     * @param text - value of petSelected.getAttributes().getSex()
+     */
     public void setGenderText(String text){
         if(text != null)
             lbl_gender.setText(text);
         else lbl_gender.setText("Unknown");
     }
+
+    /***
+     * Sets the size label to the size value from the first scene, or unknown if that value is null
+     * @param text - value of petSelected.getAttributes().getSize()
+     */
     public void setSizeText(String text){
         if(text != null)
             lbl_size.setText(text);
         else lbl_size.setText("Unknown");
     }
+
+    /***
+     * Sets the website textview to the url value from the first scene, or unknown if that value is null
+     * @param text - value of petSelected.getAttributes().getUrl()
+     */
     public void setURLText(String text){
         if(text != null)
             textView_URL.setText(text);
         else textView_URL.setText("Unknown");
     }
+
+    /***
+     * Sets the image using the image source value from the first scene, or sets a default image if that value is null
+     * @param text - value of petSelected.getAttributes().getPictureThumbnailUrl()
+     */
     public void setImage(String text){
         if(text != null)
             petImage2.setImage(new Image(text));
         else petImage2.setImage(new Image("/Images/paw.png"));
     }
+
+     /***
+     * Sets the items in the Pet Detail scene's hidden listview to those being passed from the search scene's listview.
+     * This stores the data so it can be passed back when the first scene is reloaded.
+     * @param listview - listview from the AnimalAdoptionView search scene
+     */
     public void setListview(ListView<Data> listview){
         ObservableList<Data> list = listview.getItems();
         listview_hidden.setItems(list);
     }
 
+    /***
+     * This method is called when the Back To Pet List button is clicked.
+     * It reloads the Search scene and passes the listview values back to the Search scene for display there.
+     * @param event - 'Back to Pet List' Button Click
+     * @throws IOException
+     */
     @FXML
     public void backToList(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/animalAdoptionView.fxml"));
         Parent root = loader.load();
 
-        //pass values from selected pet to the detail view  (this knowledge was gained from source:https://jagar.me/post/passingdatainjavafx/)
+        //pass values from listview to the search view
         AnimalAdoptionViewController animalAdoptionViewController = loader.getController();
-
         animalAdoptionViewController.setListview(listview_hidden);
 
         Scene scene = new Scene(root);
@@ -142,24 +185,5 @@ public class PetDetailViewController implements Initializable {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
-
-
-
-
-
-
-       // btn_back.getScene().getWindow().hide();
-
-//        Parent root = FXMLLoader.load(getClass().getResource("/Views/animalAdoptionView.fxml"));
-//        Scene scene = new Scene(root);
-//        Stage stage = (Stage) ((javafx.scene.Node)event.getSource()).getScene().getWindow();
-//        stage.setTitle("Pet Details");
-//        //add custom css styling to scene
-//        scene.getStylesheets().add("/CSS/style.css");
-//        // change default icon to paw print image
-//        stage.getIcons().add(new Image("/Images/paw.png"));
-//        stage.setResizable(false);
-//        stage.setScene(scene);
-//        stage.show();
     }
 }

@@ -17,7 +17,7 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="800.0" stylesheets="@../CSS/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.PetDetailViewController">
    <children>
-      <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="800.0" spacing="50.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="600.0" prefWidth="800.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER" prefHeight="58.0" prefWidth="660.0" spacing="20.0">
                <children>
@@ -38,75 +38,81 @@
                   </ImageView>
                </children>
             </HBox>
+            <ImageView fx:id="petImage2" fitHeight="184.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Images/takehome.png" />
+               </image>
+            </ImageView>
             <HBox prefHeight="543.0" prefWidth="699.0">
                <children>
-                  <VBox alignment="CENTER" spacing="50.0">
+                  <VBox alignment="CENTER" prefHeight="543.0" prefWidth="709.0" spacing="20.0">
                      <children>
-                        <ImageView fx:id="petImage2" fitHeight="250.0" fitWidth="225.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/takehome.png" />
-                           </image>
-                        </ImageView>
+                        <GridPane fx:id="gridpane" alignment="CENTER" prefHeight="357.0" prefWidth="700.0">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="470.0" minWidth="10.0" prefWidth="97.0666893005371" />
+                            <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="628.4000015258789" minWidth="10.0" prefWidth="411.73331069946295" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="47.000036621093756" minHeight="10.0" prefHeight="43.800024414062506" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="62.99997558593748" minHeight="10.0" prefHeight="62.99997558593748" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Name:" />
+                              <Label text="Breed:" GridPane.rowIndex="1" />
+                              <Label text="Age:" GridPane.rowIndex="2" />
+                              <Label text="Size:" GridPane.rowIndex="4" />
+                              <Label text="Website:" GridPane.rowIndex="5" />
+                              <Label fx:id="lbl_name" text="Label" textOverrun="CLIP" wrapText="true" GridPane.columnIndex="1">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="lbl_breed" text="Label" textOverrun="CLIP" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="lbl_age" text="Label" textOverrun="CLIP" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="lbl_size" text="Label" textOverrun="CLIP" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </Label>
+                              <Label fx:id="lbl_url" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </Label>
+                              <Label text="Gender:" GridPane.rowIndex="3" />
+                              <Label fx:id="lbl_gender" text="Label" textOverrun="CLIP" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </Label>
+                              <TextArea fx:id="textView_URL" editable="false" prefHeight="64.0" prefWidth="390.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                 <GridPane.margin>
+                                    <Insets left="20.0" />
+                                 </GridPane.margin>
+                              </TextArea>
+                           </children>
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets left="75.0" right="75.0" />
+                           </VBox.margin>
+                        </GridPane>
                         <Button fx:id="btn_back" mnemonicParsing="false" onAction="#backToList" text="Back to Pet List" />
                      </children>
                   </VBox>
-                  <GridPane fx:id="gridpane" alignment="CENTER" prefHeight="543.0" prefWidth="534.0">
-                    <columnConstraints>
-                      <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="470.0" minWidth="10.0" prefWidth="58.666664123535156" />
-                      <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="628.4000015258789" minWidth="10.0" prefWidth="287.7333358764648" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label text="Name:" />
-                        <Label text="Breed:" GridPane.rowIndex="1" />
-                        <Label text="Age:" GridPane.rowIndex="2" />
-                        <Label text="Size:" GridPane.rowIndex="4" />
-                        <Label text="Website:" GridPane.rowIndex="5" />
-                        <Label fx:id="lbl_name" text="Label" GridPane.columnIndex="1">
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding></Label>
-                        <Label fx:id="lbl_breed" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding></Label>
-                        <Label fx:id="lbl_age" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding></Label>
-                        <Label fx:id="lbl_size" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding></Label>
-                        <Label fx:id="lbl_url" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding></Label>
-                        <Label text="Gender:" GridPane.rowIndex="3" />
-                        <Label fx:id="lbl_gender" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding></Label>
-                        <TextArea fx:id="textView_URL" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                           <GridPane.margin>
-                              <Insets left="20.0" />
-                           </GridPane.margin>
-                        </TextArea>
-                     </children>
-                     <HBox.margin>
-                        <Insets left="50.0" />
-                     </HBox.margin>
-                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                     </padding>
-                  </GridPane>
                </children>
             </HBox>
          </children>

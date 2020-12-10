@@ -17,6 +17,15 @@ import java.nio.file.Paths;
 
 public class APIUtility {
 
+    /***
+     * Calls the RescueGroups.Org's Animal Adoption API to search for pets with the inputted parameters.
+     * @param species
+     * @param postalCode
+     * @param gender
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public static APIResponse callResponseAPI(String species, String postalCode, String gender) throws IOException, InterruptedException {
 
         String uri = "https://test1-api.rescuegroups.org/v5/public/animals/search/available/"+species+"/haspic/?limit=15";
@@ -27,19 +36,24 @@ public class APIUtility {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
                 .setHeader("Content-Type","application/vnd.api+json")
-                .setHeader("Authorization","1EKPYyAi")
+                .setHeader("Authorization","1EKPYyAi")    //clientID assigned by api owner, i.e. api key
                 .build();
         HttpResponse<Path> response = client.send(request, HttpResponse.BodyHandlers.ofFile(Paths.get(jsonLocation)));
 
         return getResponseFromJSON(new File(jsonLocation));
     }
 
+    /***
+     * Parses the json file returned from the API into compatible format using gson
+     * @param jsonFile
+     * @return
+     */
     public static APIResponse getResponseFromJSON(File jsonFile)
     {
         Gson gson = new Gson();
         APIResponse responseSearchResult = null;
 
-        //using try with resources (auto closes everything, so don't need a finally)
+        //using try with resources to auto-close everything
         try(
                 FileReader fileReader = new FileReader(jsonFile);
                 JsonReader jsonReader = new JsonReader(fileReader);
@@ -54,132 +68,7 @@ public class APIUtility {
     }
 
 
-
-
-
-
-//
-//
-//
-//
-//
-//
-//
-//    public static MetaData callMetaAPI(String species, String postalCode, String gender) throws IOException, InterruptedException {
-//
-//        String uri = "https://test1-api.rescuegroups.org/v5/public/animals/search/available/"+species+"/haspic/?limit=15";
-//
-//        String jsonLocation = "src/Utilities/petInfo.json";
-//
-//        HttpClient client = HttpClient.newHttpClient();
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(URI.create(uri))
-//                .setHeader("Content-Type","application/vnd.api+json")
-//                .setHeader("Authorization","1EKPYyAi")
-//                .build();
-//        HttpResponse<Path> response = client.send(request, HttpResponse.BodyHandlers.ofFile(Paths.get(jsonLocation)));
-//
-//        return getMetaFromJSON(new File(jsonLocation));
-//    }
-//
-//    public static MetaData getMetaFromJSON(File jsonFile)
-//    {
-//        Gson gson = new Gson();
-//        MetaData metaSearchResult = null;
-//
-//        //using try with resources (auto closes everything, so don't need a finally)
-//        try(
-//                FileReader fileReader = new FileReader(jsonFile);
-//                JsonReader jsonReader = new JsonReader(fileReader);
-//        )
-//        {
-//            metaSearchResult = gson.fromJson(jsonReader, MetaData.class);
-//        } catch(Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//        return metaSearchResult;
-//    }
-//
-//
-//
-//
-//
-//    public static Data callDataAPI(String species, String postalCode, String gender) throws IOException, InterruptedException {
-//
-//        String uri = "https://test1-api.rescuegroups.org/v5/public/animals/search/available/"+species+"/haspic/?limit=15";
-//
-//        String jsonLocation = "src/Utilities/petInfo.json";
-//
-//        HttpClient client = HttpClient.newHttpClient();
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(URI.create(uri))
-//                .setHeader("Content-Type","application/vnd.api+json")
-//                .setHeader("Authorization","1EKPYyAi")
-//                .build();
-//        HttpResponse<Path> response = client.send(request, HttpResponse.BodyHandlers.ofFile(Paths.get(jsonLocation)));
-//
-//        return getDataFromJSON(new File(jsonLocation));
-//    }
-//
-//    public static Data getDataFromJSON(File jsonFile)
-//    {
-//        Gson gson = new Gson();
-//        Data dataSearchResult = null;
-//
-//        //using try with resources (auto closes everything, so don't need a finally)
-//        try(
-//                FileReader fileReader = new FileReader(jsonFile);
-//                JsonReader jsonReader = new JsonReader(fileReader);
-//        )
-//        {
-//            dataSearchResult = gson.fromJson(jsonReader, Data.class);
-//        } catch(Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//        return dataSearchResult;
-//    }
-//
-//
-//    public static Attributes callAttributesAPI(String species, String postalCode, String gender) throws IOException, InterruptedException {
-//
-//        String uri = "https://test1-api.rescuegroups.org/v5/public/animals/search/available/"+species+"/haspic/?limit=15";
-//
-//        String jsonLocation = "src/Utilities/petInfo.json";
-//
-//        HttpClient client = HttpClient.newHttpClient();
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .uri(URI.create(uri))
-//                .setHeader("Content-Type","application/vnd.api+json")
-//                .setHeader("Authorization","1EKPYyAi")
-//                .build();
-//        HttpResponse<Path> response = client.send(request, HttpResponse.BodyHandlers.ofFile(Paths.get(jsonLocation)));
-//
-//        return getAttributesFromJSON(new File(jsonLocation));
-//    }
-//
-//    public static Attributes getAttributesFromJSON(File jsonFile)
-//    {
-//        Gson gson = new Gson();
-//        Attributes attributesSearchResult = null;
-//
-//        //using try with resources (auto closes everything, so don't need a finally)
-//        try(
-//                FileReader fileReader = new FileReader(jsonFile);
-//                JsonReader jsonReader = new JsonReader(fileReader);
-//        )
-//        {
-//            attributesSearchResult = gson.fromJson(jsonReader, Attributes.class);
-//        } catch(Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//        return attributesSearchResult;
-//    }
-//
-
-    //API Call Tester
+    //API Call Tester - used to test if the api call is returning expected results
 //    public static void main(String[] args) throws IOException, InterruptedException {
 //        callResponseAPI("dogs", "L0M1B1", "female");
 //    }

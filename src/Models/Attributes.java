@@ -25,7 +25,9 @@ public class Attributes {
     }
 
     public void setAgeGroup(String ageGroup) {
-        this.ageGroup = ageGroup;
+        if (ageGroup.length() < 50)
+            this.ageGroup = ageGroup;
+        else throw new IllegalArgumentException("Age group must be less than 50 characters.");
     }
 
     public String getBreedString() {
@@ -33,7 +35,9 @@ public class Attributes {
     }
 
     public void setBreedString(String breedString) {
-        this.breedString = breedString;
+        if (breedString.length() < 200)
+            this.breedString = breedString;
+        else throw new IllegalArgumentException("Breed must be less than 200 characters.");
     }
 
     public String getName() {
@@ -41,7 +45,9 @@ public class Attributes {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (name.length() < 200)
+            this.name = name.toUpperCase();
+        else throw new IllegalArgumentException("Name must be less than 200 characters.");
     }
 
     public String getPictureThumbnailUrl() {
@@ -49,7 +55,9 @@ public class Attributes {
     }
 
     public void setPictureThumbnailUrl(String pictureThumbnailUrl) {
-        this.pictureThumbnailUrl = pictureThumbnailUrl;
+        if (pictureThumbnailUrl.toLowerCase().contains("http") || pictureThumbnailUrl.toLowerCase().contains("www"))
+            this.pictureThumbnailUrl = pictureThumbnailUrl;
+        else throw new IllegalArgumentException("Picture Thumbnail URL must be a url containing http or www.");
     }
 
     public String getSex() {
@@ -65,7 +73,9 @@ public class Attributes {
     }
 
     public void setUrl(String url) {
-        this.url = url;
+        if (url.toLowerCase().contains("http") || url.toLowerCase().contains("www"))
+            this.url = url;
+        else throw new IllegalArgumentException("URL must be a url containing http or www.");
     }
 
     public String getSizeGroup() {
@@ -73,10 +83,12 @@ public class Attributes {
     }
 
     public void setSizeGroup(String sizeGroup) {
-        this.sizeGroup = sizeGroup;
+        if (!sizeGroup.isBlank())
+            this.sizeGroup = sizeGroup;
+        else throw new IllegalArgumentException("Size group cannot be blank");
     }
 
-    //toString Override
+    //toString Override - this is the output on the listview
     public String toString(){
         return String.format("%s - %s, %s %s", name, ageGroup, sex, breedString);
     }
